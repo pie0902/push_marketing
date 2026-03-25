@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CONTACT | 마케팅 파트너</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CONTACT PAGE ===== */
+    .contact-hero {
+      padding: 160px 0 80px;
+      background: linear-gradient(135deg, #ffffff 0%, #fdf5f6 58%, #faeaec 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 50%, rgba(181,25,43,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .contact-hero-inner { position: relative; z-index: 1; }
+    .contact-hero-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .contact-hero-title {
+      font-size: clamp(28px, 4vw, 56px);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .contact-hero-title span { color: var(--accent); }
+    .contact-hero-desc {
+      font-size: 16px;
+      color: var(--gray-mid);
+      line-height: 1.8;
+      max-width: 520px;
+    }
+
+    /* ===== FORM SECTION ===== */
+    .form-section {
+      padding: 100px 0 140px;
+      background: var(--white);
+    }
+    .form-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 28px;
+    }
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+    }
+    .form-label .required {
+      color: var(--accent);
+      margin-left: 4px;
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(0,0,0,0.3);
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(181,25,43,0.08);
+    }
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      padding-right: 44px;
+      cursor: pointer;
+    }
+    .form-textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    /* Radio buttons */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-mid);
+      transition: all 0.2s;
+    }
+    .radio-label:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .radio-label input[type="radio"] { display: none; }
+    .radio-label input[type="radio"]:checked + span {
+      color: var(--accent);
+    }
+    .radio-label:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(181,25,43,0.06);
+      color: var(--accent);
+    }
+
+    /* Budget range */
+    .budget-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .budget-label {
+      display: block;
+      text-align: center;
+      padding: 14px 10px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-mid);
+      transition: all 0.2s;
+    }
+    .budget-label:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .budget-label input[type="radio"] { display: none; }
+    .budget-label:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(181,25,43,0.06);
+      color: var(--accent);
+    }
+
+    /* Privacy */
+    .privacy-box {
+      background: var(--gray-light);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .privacy-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .privacy-text {
+      font-size: 12px;
+      color: var(--gray-mid);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Submit buttons */
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-start;
+    }
+    .btn-submit {
+      flex: none;
+      padding: 18px 34px;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font);
+      letter-spacing: 0.05em;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    .btn-cancel {
+      padding: 18px 32px;
+      background: transparent;
+      color: var(--gray-mid);
+      font-size: 15px;
+      font-weight: 500;
+      border: 1.5px solid rgba(0,0,0,0.15);
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-cancel:hover {
+      border-color: var(--black);
+      color: var(--black);
+    }
+
+    /* Section divider */
+    .form-divider {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      margin: 36px 0;
+    }
+    .form-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+
+    /* Bottom banner */
+    .contact-banner {
+      padding: 80px 0;
+      background: var(--gray-light);
+      text-align: center;
+    }
+    .contact-banner-title {
+      font-size: clamp(20px, 3vw, 36px);
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+    .contact-banner-title span { color: var(--accent); }
+    .contact-banner-desc {
+      font-size: 15px;
+      color: var(--gray-mid);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .budget-options { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .budget-options { grid-template-columns: 1fr; }
+      .form-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">PUSH MARKETING<span>.</span></a>
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="portfolio.html">PORTFOLIO</a></li>
+          <li><a href="marketing.html">MARKETING</a></li>
+          <li><a href="contents.html">CONTENTS</a></li>
+        </ul>
+      </nav>
+      <a href="contact.html" class="btn-contact-header" style="border-color:var(--accent);color:var(--accent)">CONTACT US</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="nav-mobile" id="mobileNav">
+      <ul>
+        <li><a href="portfolio.html" class="mobile-link">PORTFOLIO</a></li>
+        <li><a href="marketing.html" class="mobile-link">MARKETING</a></li>
+        <li><a href="contents.html" class="mobile-link">CONTENTS</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="contact-hero">
+      <div class="container contact-hero-inner">
+        <p class="contact-hero-eyebrow">CONTACT US</p>
+        <h1 class="contact-hero-title">
+          상품과 서비스에 자신 있다면<br />
+          <span>지금 바로 문의하세요</span>
+        </h1>
+        <p class="contact-hero-desc">
+          저희는 우리가 잘하는 마케팅을 하겠습니다.<br />
+          첫 상담은 언제나 무료이며, 맞춤 전략안을 제공해드립니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="form-section">
+      <div class="container">
+        <div class="form-wrap">
+
+          <form id="contactForm" novalidate>
+
+            <!-- 문의 정보 -->
+            <div class="form-section-title">문의 정보</div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="companyName">업체명 <span class="required">*</span></label>
+                <input type="text" id="companyName" class="form-input" placeholder="업체명을 입력해주세요" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="ownerName">성함 <span class="required">*</span></label>
+                <input type="text" id="ownerName" class="form-input" placeholder="담당자 성함을 입력해주세요" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="channel">유입경로</label>
+                <select class="form-select" id="channel">
+                  <option value="" disabled selected>어떻게 알게 되셨나요?</option>
+                  <option value="instagram">인스타그램</option>
+                  <option value="blog">블로그</option>
+                  <option value="youtube">유튜브</option>
+                  <option value="tiktok">틱톡</option>
+                  <option value="referral">지인 소개</option>
+                  <option value="search">검색</option>
+                  <option value="other">기타</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="companyUrl">업체 홈페이지 URL</label>
+                <input type="url" id="companyUrl" class="form-input" placeholder="https://example.com" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="phone">전화번호 <span class="required">*</span></label>
+                <input type="tel" id="phone" class="form-input" placeholder="010-0000-0000" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">이메일 <span class="required">*</span></label>
+                <input type="email" id="email" class="form-input" placeholder="example@email.com" required />
+              </div>
+            </div>
+
+            <hr class="form-divider" />
+
+            <!-- 예산 -->
+            <div class="form-section-title">한달 기준 사용 가능한 광고 예산</div>
+
+            <div class="form-group">
+              <div class="budget-options">
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="under100" />
+                  100만원 미만
+                </label>
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="100-300" />
+                  100 ~ 300만원
+                </label>
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="300-500" />
+                  300 ~ 500만원
+                </label>
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="500-1000" />
+                  500만원 ~ 1천만원
+                </label>
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="over1000" />
+                  1천만원 이상
+                </label>
+                <label class="budget-label">
+                  <input type="radio" name="budget" value="undecided" />
+                  미정 (상담 후 결정)
+                </label>
+              </div>
+            </div>
+
+            <!-- Privacy -->
+            <div class="privacy-box">
+              <div class="privacy-title">개인정보 수집 및 이용 동의</div>
+              <p class="privacy-text">
+                문의 응대를 위해 최소한의 정보(업체명, 성함, 전화번호, 이메일)를 수집·이용합니다.
+                수집된 정보는 상담 목적 외에는 사용되지 않으며, 상담 종료 후 즉시 파기됩니다.
+              </p>
+              <label class="checkbox-label">
+                <input type="checkbox" id="privacyAgree" required />
+                <span>개인정보 수집 및 이용에 동의합니다 (필수)</span>
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">문의 등록하기</button>
+              <button type="reset" class="btn-cancel">취소</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTTOM BANNER -->
+    <section class="contact-banner">
+      <div class="container">
+        <h2 class="contact-banner-title">
+          <span>함께 성공하는</span> 협업을 시작하세요
+        </h2>
+        <p class="contact-banner-desc">
+          저희는 단순한 대행사가 아닌, 진정한 파트너로서 함께합니다.<br />
+          브랜드의 성장이 곧 저희의 성공입니다.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">PUSH MARKETING<span>.</span></div>
+      <div class="footer-info">
+        <p><strong>대표</strong> 호소연 &nbsp;|&nbsp; <strong>사업자등록번호</strong> 473-08-03157</p>
+        <p><strong>주소</strong> 경기도 남양주시 다산중앙로 132</p>
+        <p><strong>이메일</strong> chlgksthf200@naver.com</p>
+      </div>
+      <div class="footer-copy">
+        <p>COPYRIGHT &copy; 2025 PUSH MARKETING. ALL RIGHTS RESERVED.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const agree = document.getElementById('privacyAgree');
+      const companyName = document.getElementById('companyName');
+      const ownerName = document.getElementById('ownerName');
+      const phone = document.getElementById('phone');
+      const email = document.getElementById('email');
+      const budget = contactForm.querySelector('input[name="budget"]:checked');
+
+      if (!companyName.value.trim()) { companyName.focus(); return; }
+      if (!ownerName.value.trim()) { ownerName.focus(); return; }
+      if (!phone.value.trim()) { phone.focus(); return; }
+      if (!email.value.trim()) { email.focus(); return; }
+      if (!budget) {
+        const firstBudget = contactForm.querySelector('input[name="budget"]');
+        if (firstBudget) firstBudget.focus();
+        return;
+      }
+      if (!agree.checked) { agree.focus(); return; }
+
+      // 제출 성공 처리
+      const btn = contactForm.querySelector('.btn-submit');
+      btn.textContent = '문의가 접수되었습니다 ✓';
+      btn.style.background = '#2d7a3a';
+      btn.disabled = true;
+      setTimeout(() => {
+        contactForm.reset();
+        btn.textContent = '문의 등록하기';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

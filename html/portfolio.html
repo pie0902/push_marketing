@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PORTFOLIO | 마케팅 파트너</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== PORTFOLIO PAGE ===== */
+    .page-hero {
+      padding: 160px 0 100px;
+      background: linear-gradient(135deg, #ffffff 0%, #fdf5f6 60%, #faeaec 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 80% 50%, rgba(181,25,43,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+    .page-hero-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .page-hero-title {
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+    .page-hero-title span { color: var(--accent); }
+    .page-hero-desc {
+      font-size: 16px;
+      color: var(--gray-mid);
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    /* Filter */
+    .filter-section {
+      padding: 60px 0 40px;
+      background: var(--white);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 10px 28px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(0,0,0,0.15);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-mid);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+
+    /* Gallery */
+    .gallery-section {
+      padding: 80px 0 120px;
+      background: var(--white);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+    .gallery-thumb {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.05em;
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(181,25,43,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.1em;
+      border: 1.5px solid var(--white);
+      padding: 8px 20px;
+      border-radius: 4px;
+    }
+    .gallery-category {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      background: rgba(0,0,0,0.4);
+      padding: 4px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* 색상 팔레트 */
+    .c1  { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .c2  { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .c3  { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .c4  { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .c5  { background: linear-gradient(135deg, #fa709a, #fee140); }
+    .c6  { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .c7  { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+    .c8  { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); }
+    .c9  { background: linear-gradient(135deg, #fd7043, #ff8a65); }
+    .c10 { background: linear-gradient(135deg, #26c6da, #00bcd4); }
+    .c11 { background: linear-gradient(135deg, #ab47bc, #8e24aa); }
+    .c12 { background: linear-gradient(135deg, #66bb6a, #43a047); }
+
+    /* Hidden items for filter */
+    .gallery-item.hidden { display: none; }
+
+    @media (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .filter-tabs { gap: 8px; }
+      .filter-btn { padding: 8px 18px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">PUSH MARKETING<span>.</span></a>
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="portfolio.html" style="color:var(--accent)">PORTFOLIO</a></li>
+          <li><a href="marketing.html">MARKETING</a></li>
+          <li><a href="contents.html">CONTENTS</a></li>
+        </ul>
+      </nav>
+      <a href="contact.html" class="btn-contact-header">CONTACT US</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="nav-mobile" id="mobileNav">
+      <ul>
+        <li><a href="portfolio.html" class="mobile-link">PORTFOLIO</a></li>
+        <li><a href="marketing.html" class="mobile-link">MARKETING</a></li>
+        <li><a href="contents.html" class="mobile-link">CONTENTS</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <p class="page-hero-eyebrow">PORTFOLIO</p>
+        <h1 class="page-hero-title">
+          당신의 브랜드를<br />
+          <span>더 빛나게</span> 만든 결과물
+        </h1>
+        <p class="page-hero-desc">
+          브랜드 분석과 경험 기반 전략으로 목표를 정확히 이해하고,<br />
+          실질적인 성과로 연결한 포트폴리오를 소개합니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- FILTER -->
+    <section class="filter-section">
+      <div class="container">
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">ALL</button>
+          <button class="filter-btn" data-filter="social">SOCIAL</button>
+          <button class="filter-btn" data-filter="brand">BRAND</button>
+          <button class="filter-btn" data-filter="shopping">SHOPPING MALL</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery-section">
+      <div class="container">
+        <div class="gallery-grid" id="galleryGrid">
+
+          <div class="gallery-item" data-cat="social">
+            <div class="gallery-thumb c1"></div>
+            <div class="gallery-category">SOCIAL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="social">
+            <div class="gallery-thumb c2"></div>
+            <div class="gallery-category">SOCIAL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="social">
+            <div class="gallery-thumb c3"></div>
+            <div class="gallery-category">SOCIAL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="social">
+            <div class="gallery-thumb c10"></div>
+            <div class="gallery-category">SOCIAL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="social">
+            <div class="gallery-thumb c11"></div>
+            <div class="gallery-category">SOCIAL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c4"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c5"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c6"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c9"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c12"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="brand">
+            <div class="gallery-thumb c1"></div>
+            <div class="gallery-category">BRAND</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c7"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c8"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c3"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c5"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c11"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+          <div class="gallery-item" data-cat="shopping">
+            <div class="gallery-thumb c6"></div>
+            <div class="gallery-category">SHOPPING MALL</div>
+            <div class="gallery-overlay"><span class="gallery-overlay-text">VIEW</span></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-bg"></div>
+      <div class="container cta-inner">
+        <p class="cta-eyebrow">첫 상담 시 업종별 맞춤 전략안 무료 제공</p>
+        <h2 class="cta-title">내 브랜드에 딱 맞는<br />마케팅이 따로 있습니다</h2>
+        <p class="cta-desc">업종과 상황에 맞는 전략으로 광고비 낭비를 없애드립니다.<br />지금 신청하면 맞춤 전략안을 무료로 받아보실 수 있습니다.</p>
+        <a href="contact.html" class="btn-primary btn-large">무료 컨설팅 신청하기</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">PUSH MARKETING<span>.</span></div>
+      <div class="footer-info">
+        <p><strong>대표</strong> 호소연 &nbsp;|&nbsp; <strong>사업자등록번호</strong> 473-08-03157</p>
+        <p><strong>주소</strong> 경기도 남양주시 다산중앙로 132</p>
+        <p><strong>이메일</strong> chlgksthf200@naver.com</p>
+      </div>
+      <div class="footer-copy">
+        <p>COPYRIGHT &copy; 2025 PUSH MARKETING. ALL RIGHTS RESERVED.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        galleryItems.forEach(item => {
+          if (filter === 'all' || item.dataset.cat === filter) {
+            item.classList.remove('hidden');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

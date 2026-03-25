@@ -1,0 +1,21 @@
+# 작업 메모 / 내부 문서
+markdown/
+
+# 스크린샷
+screenshot/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 환경변수
+.env
+.env.*
+.claude
