@@ -338,7 +338,7 @@ img {
 
 .hero-sub {
   font-size: clamp(14px, 1.4vw, 16px);
-  color: var(--gray-mid);
+  color: var(--black);
   line-height: 1.8;
   margin-bottom: 36px;
   animation: heroFadeUp 0.7s ease both;
