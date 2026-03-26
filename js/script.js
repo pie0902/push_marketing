@@ -84,7 +84,8 @@ const fadeObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
       // 연속된 fade-in 요소들에 딜레이 적용
-      const siblings = [...entry.target.parentElement.querySelectorAll('.fade-in')];
+      const parent = entry.target.parentElement;
+      const siblings = parent ? [...parent.querySelectorAll('.fade-in')] : [entry.target];
       const idx = siblings.indexOf(entry.target);
       entry.target.style.transitionDelay = `${idx * 0.1}s`;
       entry.target.classList.add('visible');
@@ -136,107 +137,11 @@ function animateCounter(el, target) {
   requestAnimationFrame(update);
 }
 
-/* ============================
-   REVIEWS SLIDER
-============================ */
-const slider = document.getElementById('reviewsSlider');
-const dotsContainer = document.getElementById('reviewDots');
-const prevBtn = document.getElementById('reviewPrev');
-const nextBtn = document.getElementById('reviewNext');
-const cards = slider.querySelectorAll('.review-card');
-
-let currentIndex = 0;
-let cardsPerView = getCardsPerView();
-let totalSlides = Math.ceil(cards.length / cardsPerView);
-let autoSlideTimer = null;
-
-function getCardsPerView() {
-  if (window.innerWidth <= 768) return 1;
-  if (window.innerWidth <= 1024) return 2;
-  return 3;
-}
-
-// 도트 생성
-function buildDots() {
-  dotsContainer.innerHTML = '';
-  cardsPerView = getCardsPerView();
-  totalSlides = Math.ceil(cards.length / cardsPerView);
-  currentIndex = Math.min(currentIndex, totalSlides - 1);
-
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement('button');
-    dot.className = 'dot' + (i === currentIndex ? ' active' : '');
-    dot.setAttribute('aria-label', `슬라이드 ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsContainer.appendChild(dot);
-  }
-}
-
-function goTo(index) {
-  currentIndex = index;
-  const cardWidth = cards[0].offsetWidth + 24; // gap: 24px
-  slider.style.transform = `translateX(-${currentIndex * cardsPerView * cardWidth}px)`;
-
-  // 도트 업데이트
-  dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentIndex);
-  });
-
-  resetAutoSlide();
-}
-
-function goNext() {
-  goTo((currentIndex + 1) % totalSlides);
-}
-
-function goPrev() {
-  goTo((currentIndex - 1 + totalSlides) % totalSlides);
-}
-
-prevBtn.addEventListener('click', goPrev);
-nextBtn.addEventListener('click', goNext);
-
-function startAutoSlide() {
-  autoSlideTimer = setInterval(goNext, 4000);
-}
-
-function resetAutoSlide() {
-  clearInterval(autoSlideTimer);
-  startAutoSlide();
-}
-
-// 터치 스와이프
-let touchStartX = 0;
-slider.addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-}, { passive: true });
-
-slider.addEventListener('touchend', e => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) {
-    diff > 0 ? goNext() : goPrev();
-  }
-});
-
-// 초기화 및 리사이즈 대응
-function initSlider() {
-  buildDots();
-  goTo(0);
-}
-
 window.addEventListener('resize', () => {
   if (window.innerWidth > 768) {
     closeMobileMenu();
   }
-
-  const newCpv = getCardsPerView();
-  if (newCpv !== cardsPerView) {
-    initSlider();
-  }
 });
-
-initSlider();
-startAutoSlide();
 
 /* ============================
    SMOOTH SCROLL (앵커)
