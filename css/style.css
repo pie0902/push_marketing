@@ -231,9 +231,7 @@ img {
 /* Mobile nav */
 .nav-mobile {
   display: none;
-  background: var(--white);
-  border-top: 1px solid rgba(0,0,0,0.07);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  background: transparent;
 }
 
 .nav-mobile.open {
@@ -721,15 +719,15 @@ img {
 
 .work-overlay {
   position: absolute;
-  inset: 18px;
-  background: linear-gradient(180deg, rgba(13,13,13,0.02) 15%, rgba(13,13,13,0.58) 100%);
+  inset: 0;
+  background: rgba(0,0,0,0.35);
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   transition: opacity 0.3s;
-  padding: 18px;
-  border-radius: 12px;
+  padding: 0;
+  border-radius: 0;
   pointer-events: none;
 }
 
@@ -738,15 +736,13 @@ img {
 }
 
 .work-overlay span {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.1em;
-  border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  padding: 10px 16px;
-  border-radius: 999px;
+  color: #fff;
+  letter-spacing: 0.08em;
+  border: 1.5px solid rgba(255,255,255,0.8);
+  padding: 8px 18px;
+  border-radius: 4px;
 }
 
 .work-info {
@@ -1019,7 +1015,7 @@ img {
   }
 
   .work-overlay {
-    inset: 14px;
+    inset: 0;
   }
 
   .work-info {
